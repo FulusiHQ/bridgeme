@@ -32,4 +32,8 @@ jobs:
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MAVEN_OPTS: '-Dmaven.repo.local=$HOME/.m2/repository'
+      with:
+        args: |
+          -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}
