@@ -1,0 +1,39 @@
+name: Create Release on Merge
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and package with Maven
+        run: mvn -B clean package
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            This is an automated release created by GitHub Actions.
+          draft: false
+          prerelease: false
+
+      - name: Publish to GitHub Maven
+        uses: MavenPublish/publish-maven-action@v1
+        with:
+          server-id: github
+          repository-url: https://maven.pkg.github.com/fulusihq/${{ github.repository }}
+          pom-file: ./pom.xml
+          file: ./target/*.jar
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
