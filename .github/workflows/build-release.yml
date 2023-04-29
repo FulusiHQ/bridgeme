@@ -4,9 +4,8 @@
 name: Build and Deploy
 
 on:
-  push:
-    branches: 
-      - master
+  release:
+    type: [created] 
 
 jobs:
   build-and-release:
