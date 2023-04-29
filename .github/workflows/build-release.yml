@@ -1,55 +1,35 @@
-name: Build and Release
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Maven Package
 
 on:
   push:
-    branches:
+    branches: 
       - master
 
 jobs:
-  build-and-release:
+  build:
+
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+        settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
 
-      - name: Set up Maven
-        uses: actions/setup-maven@v1
-        with:
-          maven-version: 3.6.3
-
-      - name: Build and package with Maven
-        run: mvn -B clean package
-
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            This is an automated release created by GitHub Actions.
-          draft: false
-          prerelease: false
-
-      - name: Checkout publish-maven-action
-        uses: actions/checkout@v2
-        with:
-          repository: MavenPublish/publish-maven-action
-          ref: v1
-
-      - name: Publish to GitHub Maven
-        uses: MavenPublish/publish-maven-action@v1
-        with:
-          server-id: github
-          repository-url: https://maven.pkg.github.com/fulusihq/${{ github.repository }}
-          pom-file: ./pom.xml
-          file: ./target/*.jar
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
