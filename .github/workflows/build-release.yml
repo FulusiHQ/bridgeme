@@ -34,4 +34,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MAVEN_OPTS: '-Dmaven.repo.local=$HOME/.m2/repository'
-      args: '-DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}'
+        args: '-DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}'
