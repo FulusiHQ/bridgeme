@@ -33,5 +33,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MAVEN_OPTS: '-Dmaven.repo.local=$HOME/.m2/repository -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}'
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml -Dversion=${{ github.event.release.tag_name }}
 
