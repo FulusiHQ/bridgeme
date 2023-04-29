@@ -1,4 +1,4 @@
-name:  Build and Release
+name: Build and Release
 
 on:
   push:
@@ -40,7 +40,7 @@ jobs:
           * Some bug fixes
           * Some new features
 
-   - name: Publish to GitHub Packages Apache Maven
+    - name: Publish to GitHub Packages Apache Maven
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         MAVEN_OPTS: '-Dmaven.repo.local=$HOME/.m2/repository -DaltDeploymentRepository=github::default::https://maven.pkg.github.com/${{ github.repository }}'
