@@ -3,7 +3,12 @@ package com.fulusi.bridgeme.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Type;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class UtilService {
     public static String toJson(Object pojo) {
@@ -35,5 +40,14 @@ public class UtilService {
         }
        // Type userListType = new TypeReference<List<User>>(){}.getType();
        // List<User> users = fromJson(json, userListType);
+    }
+
+
+    public static File toFile(MultipartFile file) throws Exception {
+        File convertedFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convertedFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convertedFile;
     }
 }

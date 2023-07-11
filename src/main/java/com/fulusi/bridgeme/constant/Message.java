@@ -8,4 +8,7 @@ public class Message {
     public static final String INVALID_USERID = "Cannot find user with userId specified";
     public static final String INVALID_SECRET = "Secret is invalid";
     public static final String SECRET_EXISTS = "Secrets exists";
+    public static final String INVALID_TOKEN = "Invalid token";
+    public static final String EXCEPTION_MESSAGE = "Unable to process request, try again";
+    public static final String RESOURCE_NOTFOUND = "The requested resource was not found";
 }

@@ -1,6 +1,5 @@
 package com.fulusi.bridgeme.service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import org.springframework.amqp.core.Message;
@@ -16,12 +15,12 @@ public class SkizaService {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    public void queueSms(String mobile, String text, String senderId, String payload) throws Exception{
+    public void queueSms(String mobile, String text, String senderId) throws Exception{
         HashMap <String, String> data  = new HashMap<>();
         data.put("senderId", senderId);
         data.put("text", text);
         data.put("mobile", mobile);
-        Message queue = new Message(payload.getBytes("UTF-8"));
+        Message queue = new Message(UtilService.toJson(data).getBytes("UTF-8"));
         rabbitTemplate.convertAndSend(Queue.SKIZA_SMS, queue);
     }
 }
