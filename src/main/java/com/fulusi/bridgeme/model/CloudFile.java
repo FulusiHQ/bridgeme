@@ -1,6 +1,5 @@
 package com.fulusi.bridgeme.model;
 
-import com.fulusi.bridgeme.constant.Message;
 
 import lombok.Data;
 
