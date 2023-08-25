@@ -1,9 +1,14 @@
 package com.fulusi.bridgeme.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -35,7 +40,17 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new BeResponse(Status.FAILED, ex.getLocalizedMessage()), HttpStatus.METHOD_NOT_ALLOWED);
     }
     
-
+     @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+            org.springframework.http.HttpStatusCode status,WebRequest request) {
+             List<String> errors = new ArrayList<>();
+        
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        for (FieldError fieldError : fieldErrors) {
+            errors.add(fieldError.getDefaultMessage());
+        }
+        return new ResponseEntity<>( new BeResponse(Status.FAILED, Message.EXCEPTION_MESSAGE,errors), HttpStatus.BAD_REQUEST);
+    }
 
     
 }

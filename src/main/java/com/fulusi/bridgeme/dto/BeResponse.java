@@ -1,6 +1,8 @@
 package com.fulusi.bridgeme.dto;
 
 import java.util.HashMap;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
@@ -14,7 +16,7 @@ public class BeResponse {
     private HashMap <String, String> data;
 
 
-    private Object[] errors;
+    private List<String> errors;
     private String error;
 
     public BeResponse(String status, String message) {
@@ -22,7 +24,7 @@ public class BeResponse {
         this.message = message;
     }
 
-    public BeResponse(String status, String message, Object[] objects) {
+    public BeResponse(String status, String message, List<String> objects) {
         this.status = status;
         this.message = message;
         this.errors = objects;

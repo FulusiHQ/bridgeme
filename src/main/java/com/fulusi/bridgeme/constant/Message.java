@@ -11,4 +11,5 @@ public class Message {
     public static final String INVALID_TOKEN = "Invalid token";
     public static final String EXCEPTION_MESSAGE = "Unable to process request, try again";
     public static final String RESOURCE_NOTFOUND = "The requested resource was not found";
+       public static final String BAD_REQUEST = "Invalid request data";
 }
