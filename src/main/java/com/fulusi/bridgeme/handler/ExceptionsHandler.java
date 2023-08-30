@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.context.request.WebRequest;
-import com.fulusi.bridgeme.constant.Message;
+import com.fulusi.bridgeme.constant.ErrorCode;
 import com.fulusi.bridgeme.constant.Status;
 import com.fulusi.bridgeme.dto.BeResponse;
 
@@ -24,14 +24,14 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
         System.out.println(ex);
-        return new ResponseEntity<>(new BeResponse(Status.FAILED, Message.EXCEPTION_MESSAGE),
+        return new ResponseEntity<>(new BeResponse(Status.FAILED, ErrorCode.UNKNOWN_ERROR),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
             org.springframework.http.HttpStatusCode status,WebRequest request) {
-        return new ResponseEntity<>(new BeResponse(Status.FAILED, Message.RESOURCE_NOTFOUND), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new BeResponse(Status.FAILED, ErrorCode.RESOURCE_NOTFOUND), HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         for (FieldError fieldError : fieldErrors) {
             errors.add(fieldError.getDefaultMessage());
         }
-        return new ResponseEntity<>( new BeResponse(Status.FAILED, Message.EXCEPTION_MESSAGE,errors), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>( new BeResponse(Status.FAILED, ErrorCode.BAD_REQUEST,errors), HttpStatus.BAD_REQUEST);
     }
 
     

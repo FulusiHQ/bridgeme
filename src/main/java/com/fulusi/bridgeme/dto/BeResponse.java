@@ -3,35 +3,50 @@ package com.fulusi.bridgeme.dto;
 import java.util.HashMap;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fulusi.bridgeme.constant.Status;
+
 import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BeResponse {
     
-    private String status;
-    private String message;
+    protected String status;
+    protected String message;
+    protected String errorCode;
 
-    private HashMap <String, String> data;
+    protected HashMap <String, Object> data;
 
 
-    private List<String> errors;
-    private String error;
+    protected List<String> errors;
+    protected String error;
 
-    public BeResponse(String status, String message) {
+    public BeResponse(){};
+
+    public BeResponse(String status){
         this.status = status;
-        this.message = message;
+    };
+
+    public BeResponse(String status, String errorCode) {
+        this.status = status;
+        this.errorCode = errorCode;
     }
 
-    public BeResponse(String status, String message, List<String> objects) {
+    public BeResponse(String status, String errorCode, List<String> objects) {
         this.status = status;
-        this.message = message;
+        this.errorCode = errorCode;
         this.errors = objects;
     } 
-    public BeResponse(String status, String message, String error) {
+        public BeResponse(String status, String errorCode, String message) {
         this.status = status;
+        this.errorCode = errorCode;
         this.message = message;
-        this.error = error;
     } 
+    
+    @JsonIgnore
+    public Boolean isSuccess() {
+        return (this.status != null && this.status.equals(Status.SUCCESS)) ? true: false;
+    }
 }
