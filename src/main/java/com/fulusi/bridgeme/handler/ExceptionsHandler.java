@@ -24,8 +24,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex) {
         System.out.println(ex);
-        return new ResponseEntity<>(new BeResponse(Status.FAILED, ErrorCode.UNKNOWN_ERROR),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new BeResponse(Status.FAILED, ex.getMessage() , "Unable to process request"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
