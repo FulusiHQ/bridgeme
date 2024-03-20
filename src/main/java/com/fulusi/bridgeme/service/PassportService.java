@@ -44,4 +44,11 @@ public class PassportService {
         validateSecret.setSecret(secret);
         return passportClient.validateSecret(validateSecret);
     }
+
+    public PassportResponse addUserDocuments(String userId, String type, String path) {
+        AddDocument addDocument = new AddDocument();
+        addDocument.setType(type);
+        addDocument.setPath(path);
+        return passportClient.AddUserDocument(userId, addDocument);
+    }
 }
