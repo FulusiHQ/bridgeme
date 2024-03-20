@@ -12,20 +12,20 @@ import lombok.Data;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BeResponse {
-    
+
     protected String status;
     protected String message;
     protected String errorCode;
 
-    protected HashMap <String, Object> data;
-
+    protected HashMap<String, Object> data;
 
     protected List<String> errors;
     protected String error;
 
-    public BeResponse(){};
+    public BeResponse() {
+    };
 
-    public BeResponse(String status){
+    public BeResponse(String status) {
         this.status = status;
     };
 
@@ -38,15 +38,16 @@ public class BeResponse {
         this.status = status;
         this.errorCode = errorCode;
         this.errors = objects;
-    } 
-        public BeResponse(String status, String errorCode, String message) {
+    }
+
+    public BeResponse(String status, String errorCode, String message) {
         this.status = status;
         this.errorCode = errorCode;
         this.message = message;
-    } 
-    
+    }
+
     @JsonIgnore
     public Boolean isSuccess() {
-        return (this.status != null && this.status.equals(Status.SUCCESS)) ? true: false;
+        return (this.status != null && this.status.equals(Status.SUCCESS)) ? true : false;
     }
 }

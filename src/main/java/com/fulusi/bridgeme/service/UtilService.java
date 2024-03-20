@@ -50,4 +50,12 @@ public class UtilService {
         fos.close();
         return convertedFile;
     }
+
+    public static Long toLong(String value) {
+        try {
+            return Long.parseLong(value);
+        } catch(Exception ex) {
+            return null;
+        }
+    }
 }
